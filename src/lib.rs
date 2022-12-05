@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports)]
 mod array_and_string;
 mod bit_manipulation;
 mod combinatorics;

@@ -1,9 +1,6 @@
-#![allow(dead_code, unused_imports)]
 /*
- * FIRST SERVED
- *
+ * CAFE ORDER CHECKER
  * https://www.interviewcake.com/question/javascript/cafe-order-checker
- *
  * Check if we're serving orders first-come, first-served
  */
 

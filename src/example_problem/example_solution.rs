@@ -1,6 +1,8 @@
-// Example problem organization
-
-#![allow(dead_code, unused_imports)]
+/*
+ * EXAMPLE PROBLEM TITLE
+ * Link to coding challenge source
+ * Description of the problem
+ */
 
 fn add_one(num: i32) -> i32 {
     0

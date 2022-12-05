@@ -1,7 +1,8 @@
-// Check if we're serving orders first-come, first-served
-// https://www.interviewcake.com/question/javascript/cafe-order-checker
-
-#![allow(dead_code, unused_imports)]
+/*
+ * CAFE ORDER CHECKER
+ * https://www.interviewcake.com/question/javascript/cafe-order-checker
+ * Check if we're serving orders first-come, first-served
+ */
 
 fn is_first_come_first_served(
     take_out: Vec<i32>,
