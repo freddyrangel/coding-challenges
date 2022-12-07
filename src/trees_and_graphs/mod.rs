@@ -1,6 +1,13 @@
+mod avl;
+mod breadth_first;
+mod bst;
 mod color_graph;
+mod depth_first;
 mod find_duplicate;
 mod find_second_largest;
 mod get_path;
+mod graph;
 mod is_balanced;
 mod is_binary_search_tree;
+mod pathfinding;
+mod tries;
