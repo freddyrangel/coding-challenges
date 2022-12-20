@@ -5,13 +5,7 @@
  */
 
 fn find_unique_delivery_id(delivery_ids: Vec<usize>) -> usize {
-    let mut unique_delivery_id = 0;
-
-    delivery_ids.iter().for_each(|delivery_id| {
-        unique_delivery_id ^= delivery_id;
-    });
-
-    unique_delivery_id
+    ids.iter().fold(0, |acc, id| acc ^ id)
 }
 
 #[cfg(test)]
