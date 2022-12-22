@@ -1,7 +1,7 @@
 /*
  * REVERSE
  * https://www.interviewcake.com/question/javascript/reverse-linked-list
- * Reverse the linked list in place
+ * Reverse the singly linked list in place
  */
 
 use std::cell::RefCell;
