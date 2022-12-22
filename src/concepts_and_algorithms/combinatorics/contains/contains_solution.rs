@@ -5,30 +5,25 @@
  */
 
 fn contains(numbers: Vec<usize>, value: usize) -> bool {
-    let mut answer = false;
-    let mut list = numbers.as_slice();
+    let mut arr = items.as_slice();
 
-    while list.len() > 0 {
-        let len = list.len();
+    while arr.len() > 0 {
+        let len = arr.len();
         let mid = len / 2;
-        let mid_value = list[mid];
+        let midpoint = arr[mid];
 
-        if len == 1 {
-            if mid_value != value {
-                break;
-            }
-        }
-        if value == mid_value {
-            answer = true;
-            break;
-        } else if value < mid_value {
-            list = &list[0..mid];
-        } else {
-            list = &list[mid..len];
+        if midpoint == item {
+            return true;
+        } else if len == 1 {
+            return false;
+        } else if item < midpoint {
+            arr = &arr[0..mid];
+        } else if midpoint < item {
+            arr = &arr[mid..len];
         }
     }
 
-    answer
+    false
 }
 
 #[cfg(test)]
