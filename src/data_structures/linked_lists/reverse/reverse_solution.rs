@@ -5,92 +5,80 @@
  */
 
 use std::cell::RefCell;
-use std::convert::From;
-use std::fmt::Debug;
 use std::rc::Rc;
 
-type RefNode<T> = Rc<RefCell<LinkedListNode<T>>>;
-type RefNodeList<T> = Vec<RefNode<T>>;
-
 struct LinkedList<T> {
-    head: Option<RefNode<T>>,
+    head: OptionNode<T>,
+    tail: OptionNode<T>,
 }
 
-#[derive(Debug)]
-struct LinkedListNode<T> {
+type OptionNode<T> = Option<RefNode<T>>;
+type RefNode<T> = Rc<RefCell<Node<T>>>;
+
+struct Node<T> {
     value: T,
-    next: Option<RefNode<T>>,
+    next: OptionNode<T>,
 }
 
 impl<T: Copy, const N: usize> From<[T; N]> for LinkedList<T> {
     fn from(values: [T; N]) -> Self {
-        let mut nodes: RefNodeList<T> = Vec::new();
-        for (i, value) in values.iter().enumerate() {
-            let node = LinkedListNode::new(value.clone());
-            if i > 0 {
-                let previous_node = Rc::clone(&nodes[i - 1]);
-                previous_node.borrow_mut().next = Some(Rc::clone(&node));
+        let mut list = LinkedList::new();
+
+        for value in values {
+            let node = Some(Node::new(value));
+            match list.tail.clone() {
+                Some(tail) => {
+                    tail.borrow_mut().next = node.clone();
+                    list.tail = node.clone();
+                }
+                None => {
+                    list.head = node.clone();
+                    list.tail = node.clone();
+                }
             }
-            nodes.push(node);
         }
 
-        if values.len() > 0 {
-            LinkedList {
-                head: Some(Rc::clone(&nodes[0])),
-            }
-        } else {
-            LinkedList { head: None }
-        }
+        list
     }
 }
 
-impl<T: Debug + Clone> LinkedList<T> {
+impl<T: Copy> LinkedList<T> {
+    fn new() -> Self {
+        LinkedList {
+            head: None,
+            tail: None,
+        }
+    }
+
     fn reverse(&mut self) {
-        let mut current_node_option = self.head.clone();
-        let mut previous_node_option = None;
-        let mut _next_node_option = None;
+        let mut values = self.values();
+        values.reverse();
+        let mut current_node = self.head.clone();
 
-        while let Some(current_node) = &current_node_option {
-            _next_node_option = current_node.clone().borrow().next.clone();
-
-            if _next_node_option.is_none() {
-                self.head = current_node_option.clone();
+        for value in values {
+            if let Some(node) = current_node.clone() {
+                node.borrow_mut().value = value;
+                current_node = node.borrow().next.clone();
             }
-
-            current_node.clone().borrow_mut().next = previous_node_option;
-
-            previous_node_option = current_node_option.clone();
-
-            current_node_option = _next_node_option;
         }
     }
 
     fn values(&self) -> Vec<T> {
-        let nodes = self.nodes();
+        let mut values = Vec::new();
+        let mut current_node = self.head.clone();
 
-        nodes
-            .iter()
-            .map(|node| node.borrow().value.clone())
-            .collect()
-    }
-
-    fn nodes(&self) -> RefNodeList<T> {
-        let mut nodes: RefNodeList<T> = Vec::new();
-        let mut current_node_option = self.head.clone();
-
-        loop {
-            match current_node_option {
-                Some(current_node) => {
-                    nodes.push(Rc::clone(&current_node));
-                    current_node_option = Rc::clone(&current_node).borrow().next.clone();
-                }
-                None => {
-                    break;
-                }
-            }
+        while let Some(node) = current_node {
+            values.push(node.borrow().value);
+            current_node = node.borrow().next.clone();
         }
 
-        nodes
+        values
+    }
+}
+
+impl<T> Node<T> {
+    fn new(value: T) -> RefNode<T> {
+        Rc::new(RefCell::new(Node { value, next: None }))
     }
 }
 
