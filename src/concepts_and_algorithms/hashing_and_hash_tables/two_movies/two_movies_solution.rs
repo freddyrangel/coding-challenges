@@ -12,32 +12,21 @@
  *  Optimize for runtime over memory
  */
 
+use std::collections::HashSet;
+
 fn two_movies(movie_lengths: Vec<i32>, flight_length: i32) -> bool {
-    let mut i = 0;
-    let mut result = false;
+    let mut movie_lengths_seen = HashSet::new();
 
-    if movie_lengths.len() < 1 {
-        result
-    } else {
-        while i < movie_lengths.len() - 1 {
-            let current_movie = movie_lengths[i];
-            let mut j = i + 1;
-
-            while j < movie_lengths.len() {
-                let next_movie = movie_lengths[j];
-                if current_movie + next_movie <= flight_length {
-                    result = true;
-                    break;
-                }
-
-                j += 1;
-            }
-
-            i += 1;
+    for first_movie_length in movie_lengths {
+        let matching_second_movie_length = flight_length - first_movie_length;
+        if movie_lengths_seen.contains(&matching_second_movie_length) {
+            return true;
         }
 
-        result
+        movie_lengths_seen.insert(first_movie_length);
     }
+
+    false
 }
 
 #[cfg(test)]
