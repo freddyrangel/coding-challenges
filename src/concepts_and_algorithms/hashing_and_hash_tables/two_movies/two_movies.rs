@@ -1,7 +1,15 @@
 /*
  * TWO MOVIE RUNTIME
  * https://www.interviewcake.com/question/javascript/inflight-entertainment
- * Determine if two movie runtimes add up to the flight length
+ *
+ * Write a function that takes an integer flight_length (in minutes) and an array of integers
+ * movie_lengths (in minutes) and returns a boolean indicating whether there are two numbers in
+ * movie_lengths whose sum equals flightLength.
+ *
+ * When building your function:
+ *  Assume your users will watch exactly two movies
+ *  Don't make your users watch the same movie twice
+ *  Optimize for runtime over memory
  */
 
 #[cfg(test)]
